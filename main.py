@@ -13,36 +13,38 @@ os.chdir(docpath)
 # begins initial name set-up if first time using
 if 'settings.txt' not in os.listdir("./"):
 
-    # print("Hello, this is your friendly AI setup. What would you like my name to be?")
+    # name setup
     obj = gTTS(text="Hello, this is your friendly AI setup. What would you like my name to be?", lang='en', tld='ca')
     obj.save("welcome.mp3")
     playsound('welcome.mp3')
     time.sleep(1)
-    os.unlink("C:\\Users/Chris Pollard/PycharmProjects/Leila/welcome.mp3")
+    try:
+        os.unlink("welcome.mp3")
+    except(FileNotFoundError):
+        pass
 
-    x = 1
-    while x != 2:
+    # writes AI name to text file
+    while True:
         AIname = AI.initialsetup()
         try:
             print("Ok, my name will be " + AIname)
             settings = open('settings.txt', 'w')
             settings.write("Name: " + AIname + '\n')
             settings.close()
-            x = 2
+            break
 
         except TypeError:
             print("Could you repeat that?\n")
 
     print("What is your name?")
 
-    x = 1
-    while x != 2:
+    while True:
         userName = AI.initialsetup()
         try:
             print("Nice to meet you  " + userName)
             AI = open('settings.txt', 'a')
             AI.write("User: " + userName + '\n')
-            x = 2
+            break
 
         except TypeError:
             print("Could you repeat that?\n")
@@ -50,7 +52,7 @@ if 'settings.txt' not in os.listdir("./"):
 # not a first time user, begins normally
 elif 'settings.txt' in os.listdir("./"):
 
-    # looks in txt file for name of user
+    # looks in text file for name of user
     USname = " "
     readfile = open('settings.txt')
     contents = readfile.read()
@@ -66,7 +68,7 @@ elif 'settings.txt' in os.listdir("./"):
     playsound('welcome.mp3')
     time.sleep(1)
     try:
-        os.unlink("C:\\Users/Chris Pollard/PycharmProjects/Leila/welcome.mp3")
+        os.unlink("welcome.mp3")
     except FileNotFoundError:
         pass
 
@@ -82,33 +84,30 @@ while True:
     contentlist = contents.split()
     AIname = contentlist[1]
 
-    # background listening
-    v = AI.listenbackground()
-    vw = []
+    # background listening - has phrase time limit of 2s to check for name quicker
+    soundSlice = AI.listenbackground()
+    soundSliceArray = []
     try:
-        vw = v.split()
+        soundSliceArray = soundSlice.split()
     except AttributeError:
         pass
 
     # detects if user says AI's name
     try:
-            if AIname in vw:
-                AI.reply("I hear you", "Ihearyou.mp3")
+        if AIname in soundSliceArray:
+            AI.reply("I hear you", "Ihearyou.mp3")
             
-                # active listen for Tasks
-                w = AI.listen()
-                ws = []
-                try:
-                    ws = w.split()
-                except AttributeError:
-                    print("You suck Sadge")
-                    print(w)
-                    for i in ws:
-                        print(ws[i])
+            # active listen for Tasks
+            taskListen = AI.listen()
+            print("plain taskListen: " + taskListen)
+            taskListenArray = []
+            taskListenArray = taskListen.split()
+            print(taskListenArray)
 
-                # if second to last word is volume, calls command and sends list to Tasks
-                if len(ws) != 0 and ws[len(ws) - 2] == "volume":
-                    Tasks.command("volume", ws)
+            # if second to last word is volume, calls command and sends list to Tasks
+            if len(taskListenArray) != 0 and taskListenArray[len(taskListenArray) - 2] == "volume":
+                Tasks.command("volume", taskListenArray)
+
     except AttributeError:
         pass
     except TypeError:

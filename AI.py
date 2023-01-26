@@ -6,9 +6,13 @@ import time, os
 
 # obtain audio from the microphone
 r = sr.Recognizer()
+
 # for index, name in enumerate(sr.Microphone.list_microphone_names()):
 #     print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(index, name))
 
+# sets working directory to user documents, for the reply function's unlinking
+docpath = os.path.expanduser('~/Documents')
+os.chdir(docpath)
 
 def initialsetup():
     with sr.Microphone() as source:
@@ -33,6 +37,7 @@ def listen():
         r.adjust_for_ambient_noise(source)
         r.pause_threshold = 1
         voice = r.listen(source, phrase_time_limit=6)
+
     # recognize speech using Google Speech Recognition
     try:
         # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
@@ -49,6 +54,8 @@ def listenbackground():
     with sr.Microphone(device_index=1) as source:
         r.adjust_for_ambient_noise(source)
         r.pause_threshold = 1
+
+        # shorter phrase time limit to activate faster when talked to 
         voice = r.listen(source, phrase_time_limit=2)
 
     # recognize speech using Google Speech Recognition
@@ -69,6 +76,7 @@ def reply(message, filename):
     playsound(filename)
 
     try:
-        os.unlink(os.path.join("C:\\Users/Chris Pollard/Documents/", filename))
+        # os.unlink(os.path.join("C:\\Users/Chris Pollard/Documents/", filename))
+        os.unlink(filename)
     except FileNotFoundError:
         print("error in unlinking file")
