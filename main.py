@@ -93,7 +93,8 @@ while True:
     # detects if user says AI's name
     try:
             if AIname in vw:
-                AI.reply("I hear you", "I hear you.mp3")
+                AI.reply("I hear you", "Ihearyou.mp3")
+            
                 # active listen for Tasks
                 w = AI.listen()
                 ws = []
@@ -101,6 +102,9 @@ while True:
                     ws = w.split()
                 except AttributeError:
                     print("You suck Sadge")
+                    print(w)
+                    for i in ws:
+                        print(ws[i])
 
                 # if second to last word is volume, calls command and sends list to Tasks
                 if len(ws) != 0 and ws[len(ws) - 2] == "volume":
