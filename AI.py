@@ -40,8 +40,6 @@ def listen():
 
     # recognize speech using Google Speech Recognition
     try:
-        # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-        # instead of `r.recognize_google(audio)`
         v = r.recognize_google(voice)
         return v
     except sr.UnknownValueError:
@@ -60,8 +58,6 @@ def listenbackground():
 
     # recognize speech using Google Speech Recognition
     try:
-        # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-        # instead of `r.recognize_google(audio)`
         v = r.recognize_google(voice)
         return v
     except sr.UnknownValueError:
@@ -74,9 +70,29 @@ def reply(message, filename):
     obj = gTTS(text= message, lang='en', tld='ca')
     obj.save(filename)
     playsound(filename)
-
+    time.sleep(1)
+    
     try:
-        # os.unlink(os.path.join("C:\\Users/Chris Pollard/Documents/", filename))
         os.unlink(filename)
     except FileNotFoundError:
         print("error in unlinking file")
+
+
+def settings(data):
+
+    dataReturn = ' '
+    readfile = open('settings.txt')
+    contents = readfile.read()
+    for k in contents:
+        contents.lower()
+    contentlist = contents.split()
+
+    match data:
+        case "username":
+            dataReturn = contentlist[3]
+        case "AIname":
+            dataReturn = contentlist[1]
+        case _: 
+            print("Data not found")
+
+    return dataReturn

@@ -14,15 +14,8 @@ os.chdir(docpath)
 if 'settings.txt' not in os.listdir("./"):
 
     # name setup
-    obj = gTTS(text="Hello, this is your friendly AI setup. What would you like my name to be?", lang='en', tld='ca')
-    obj.save("welcome.mp3")
-    playsound('welcome.mp3')
-    time.sleep(1)
-    try:
-        os.unlink("welcome.mp3")
-    except(FileNotFoundError):
-        pass
-
+    AI.reply("Hello, this is your friendly AI setup. What would you like my name to be?", "welcome.mp3")
+    
     # writes AI name to text file
     while True:
         AIname = AI.initialsetup()
@@ -53,37 +46,17 @@ if 'settings.txt' not in os.listdir("./"):
 elif 'settings.txt' in os.listdir("./"):
 
     # looks in text file for name of user
-    USname = " "
-    readfile = open('settings.txt')
-    contents = readfile.read()
-    for k in contents:
-        contents.lower()
-    contentlist = contents.split()
-    print(contentlist)
-    USname = contentlist[3]
-
+    USname = AI.settings("username")
+    
     # greets user by name
-    obj = gTTS(text="Welcome back " + USname, lang='en', tld='ca')
-    obj.save("welcome.mp3")
-    playsound('welcome.mp3')
-    time.sleep(1)
-    try:
-        os.unlink("welcome.mp3")
-    except FileNotFoundError:
-        pass
+    AI.reply("Welcome back " + USname, "welcome.mp3")
 
 # main listening loop, listens for AI name
 while True:
 
     # defines AI name
-    AIname = " "
-    readfile = open('settings.txt')
-    contents = readfile.read()
-    for k in contents:
-        contents.lower()
-    contentlist = contents.split()
-    AIname = contentlist[1]
-
+    AIname = AI.settings("AIname")
+    
     # background listening - has phrase time limit of 2s to check for name quicker
     soundSlice = AI.listenbackground()
     soundSliceArray = []
@@ -99,15 +72,12 @@ while True:
             
             # active listen for Tasks
             taskListen = AI.listen()
-            print("plain taskListen: " + taskListen)
             taskListenArray = []
             taskListenArray = taskListen.split()
-            print(taskListenArray)
 
             # if second to last word is volume, calls command and sends list to Tasks
             if len(taskListenArray) != 0 and taskListenArray[len(taskListenArray) - 2] == "volume":
                 Tasks.command("volume", taskListenArray)
-
     except AttributeError:
         pass
     except TypeError:
