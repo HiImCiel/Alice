@@ -55,6 +55,7 @@ elif 'settings.txt' in os.listdir("./"):
 while True:
 
     # defines AI name
+    # test
     AIname = AI.settings("AIname")
     
     # background listening - has phrase time limit of 2s to check for name quicker

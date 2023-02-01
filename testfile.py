@@ -80,3 +80,5 @@ print(list(data.keys()))
 url1 = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=1523+E+Madison+St+Seattle+WA+98122&benchmark=2020&format=json'
 response = requests.get(url1)
 print(response)
+
+print(response)
