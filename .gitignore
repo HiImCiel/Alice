@@ -142,3 +142,5 @@ cython_debug/
 .idea/
 test.py
 testfile.py
+import requests.py
+testfile.py

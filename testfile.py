@@ -64,5 +64,19 @@ print(list(data.keys()))
 # print(data['calendarDayTemperatureMax'])
 
 
-# as
+# let headers = new Headers({
+#     "Accept"       : "application/json",
+#     "Content-Type" : "application/json",
+#     "User-Agent"   : "MY-UA-STRING"
+# });
 
+# fetch(url, {
+#     method  : 'GET', 
+#     headers : headers 
+#     // ... etc
+# }).then( ...
+
+
+url1 = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=1523+E+Madison+St+Seattle+WA+98122&benchmark=2020&format=json'
+response = requests.get(url1)
+print(response)

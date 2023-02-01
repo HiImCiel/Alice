@@ -51,7 +51,7 @@ elif 'settings.txt' in os.listdir("./"):
     # greets user by name
     AI.reply("Welcome back " + USname, "welcome.mp3")
 
-# main listening loop, listens for AI name
+# main infinite listening loop, listens for AI name
 while True:
 
     # defines AI name
