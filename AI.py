@@ -70,7 +70,7 @@ def reply(message, filename):
     obj = gTTS(text= message, lang='en', tld='ca')
     obj.save(filename)
     playsound(filename)
-    time.sleep(1)
+    # time.sleep(1)
     
     try:
         os.unlink(filename)
@@ -88,11 +88,13 @@ def settings(data):
     contentlist = contents.split()
 
     match data:
-        case "username":
-            dataReturn = contentlist[3]
         case "AIname":
             dataReturn = contentlist[1]
+        case "username":
+            dataReturn = contentlist[3]
+        case "address":
+            dataReturn = contentlist[5]
         case _: 
-            print("Data not found")
+            print("DNF")
 
     return dataReturn

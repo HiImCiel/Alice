@@ -6,6 +6,8 @@ import os
 from playsound import playsound
 import time
 
+docpath = os.path.expanduser('~/Documents')
+os.chdir(docpath)
 
 class Tasks:
 
@@ -20,9 +22,18 @@ def conversation():
 
 
 def question(text):
-
+    address = ''
     if text == "weather":
-        print("asdf")
+        address = AI.settings("address")
+
+        if address == "unknown":
+            AI.reply("I don't see a record of address. Please provide you address", "address.mp3")
+            address = input()
+
+    
+        # settings = open('settings.txt', 'w')
+        # settings.write("Name: " + AIname + '\n')
+        # settings.close()
 
 
 def command(name, v):

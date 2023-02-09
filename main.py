@@ -37,6 +37,7 @@ if 'settings.txt' not in os.listdir("./"):
             print("Nice to meet you  " + userName)
             AI = open('settings.txt', 'a')
             AI.write("User: " + userName + '\n')
+            AI.write("Address: unknown")
             break
 
         except TypeError:
@@ -55,7 +56,6 @@ elif 'settings.txt' in os.listdir("./"):
 while True:
 
     # defines AI name
-    # test
     AIname = AI.settings("AIname")
     
     # background listening - has phrase time limit of 2s to check for name quicker
@@ -70,15 +70,27 @@ while True:
     try:
         if AIname in soundSliceArray:
             AI.reply("I hear you", "Ihearyou.mp3")
-            
+            print("asdfasdf")
             # active listen for Tasks
             taskListen = AI.listen()
             taskListenArray = []
             taskListenArray = taskListen.split()
 
             # if second to last word is volume, calls command and sends list to Tasks
-            if len(taskListenArray) != 0 and taskListenArray[len(taskListenArray) - 2] == "volume":
-                Tasks.command("volume", taskListenArray)
+            # if len(taskListenArray) != 0 and taskListenArray[len(taskListenArray) - 2] == "volume":
+            #     Tasks.command("volume", taskListenArray)
+            
+            if len(taskListenArray) != 0:
+                if "volume" in taskListenArray and "up" or "down" in taskListenArray:
+                    Tasks.command("volume", taskListenArray)
+                elif "weather" in taskListenArray:
+                    # todo
+                    Tasks.question("weather")
+                else:
+                    pass
+            else:
+                pass
+  
     except AttributeError:
         pass
     except TypeError:
